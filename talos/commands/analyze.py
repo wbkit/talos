@@ -166,7 +166,7 @@ class Analyze:
         except RuntimeError:
             print('Matplotlib Runtime Error. Plots will not work.')
 
-    def table(self, metric, exclude=[], sort_by=None, ascending=False):
+    def table(self, metric, exclude=[], sort_by=None, ascending=False, number=None):
 
         '''Shows a table with hyperparameters and a given metric
 
@@ -181,6 +181,7 @@ class Analyze:
         exclude | list | Column label/s to be excluded from the correlation
         sort_by | str | The colunm name sorting should be based on
         ascending | bool | Set to True when `sort_by` is to be minimized eg. loss
+        number | int | The number of list elements to be returned, if None the whole list is returned
 
         '''
 
@@ -190,7 +191,8 @@ class Analyze:
             sort_by = metric
 
         out = self.data[cols].sort_values(sort_by, ascending=ascending)
-
+        if number is not None:
+            out = out.head(number)
         return out
 
     def best_params(self, metric, exclude, n=10, ascending=False):
